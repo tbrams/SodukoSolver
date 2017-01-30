@@ -1,8 +1,10 @@
 package dk.brams.android.soduko;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,13 +21,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DigitFragment extends Fragment {
+public class DigitFragment extends Fragment implements InputDigitDialog.NoticeDialogListener {
 
     private static final String TAG = "TBR:";
     RecyclerView mRecyclerView;
     Button mSolveBtn;
     int[][] mBoard;
-
+    int mRow=-1;
+    int mCol=-1;
 
 
     public static DigitFragment newInstance() {
@@ -102,15 +105,15 @@ public class DigitFragment extends Fragment {
 
     private int[][] generateBoard() {
         int[][] newBoard =
-                {{0, 6, 0, 1, 0, 4, 0, 5, 0},
-                        {0, 0, 8, 3, 0, 5, 6, 0, 0},
-                        {2, 0, 0, 0, 0, 0, 0, 0, 1},
-                        {8, 0, 0, 4, 0, 7, 0, 0, 6},
-                        {0, 0, 6, 0, 0, 0, 3, 0, 0},
-                        {7, 0, 0, 9, 0, 1, 0, 0, 4},
-                        {5, 0, 0, 0, 0, 0, 0, 0, 2},
-                        {0, 0, 7, 2, 0, 6, 9, 0, 0},
-                        {0, 4, 0, 5, 0, 8, 0, 7, 0}};
+                {{3, 2, 9, 0, 0, 0, 0, 0, 0},
+                 {0, 6, 5, 0, 0, 0, 1, 3, 0},
+                 {0, 0, 0, 0, 0, 0, 0, 0, 2},
+                 {0, 0, 0, 0, 0, 1, 3, 0, 0},
+                 {9, 5, 0, 0, 0, 3, 0, 0, 1},
+                 {0, 0, 1, 4, 0, 0, 0, 0, 9},
+                 {0, 0, 7, 1, 0, 0, 0, 2, 0},
+                 {0, 0, 0, 0, 9, 4, 5, 0, 8},
+                 {0, 0, 0, 0, 0, 8, 4, 0, 0}};
          return newBoard;
     }
 
@@ -127,6 +130,16 @@ public class DigitFragment extends Fragment {
         }
 
         rv.setAdapter(new DigitAdapter(testList));
+    }
+
+    @Override
+    public void onDialogClick(String number) {
+        // Do stuff with number clicked...
+
+        Log.d(TAG, "onDialogClicked: "+number);
+
+        mBoard[mRow][mCol]=Integer.parseInt(number);
+        updateAdapterView(mBoard, mRecyclerView);
     }
 
 
@@ -150,15 +163,23 @@ public class DigitFragment extends Fragment {
                    ((mDigit.getCol() > 2) && (mDigit.getCol() < 6)) &&
                    ((mDigit.getRow() > 2) && (mDigit.getRow() < 6))) {
                 mButton.setBackgroundResource(R.drawable.button_selector_2);
+                mButton.setTextColor(Color.WHITE);
             } else {
                 mButton.setBackgroundResource(R.drawable.button_selector);
+                mButton.setTextColor(Color.BLACK);
             }
             mButton.setText(mDigit.getValue());
         }
 
         @Override
         public void onClick(View v) {
-            Log.d(TAG, "onClick: "+mDigit.getRow()+", "+mDigit.getCol());
+
+            //
+            Log.d(TAG, "you clicked: "+mDigit.getRow()+", "+mDigit.getCol());
+            mRow = mDigit.getRow();
+            mCol = mDigit.getCol();
+
+            showDialog();
         }
     }
 
@@ -190,6 +211,14 @@ public class DigitFragment extends Fragment {
         public int getItemCount() {
             return mDigits.size();
         }
+    }
+
+
+    private void showDialog() {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        InputDigitDialog inputDigitDialog = new InputDigitDialog();
+        inputDigitDialog.setTargetFragment(this, 0);
+        inputDigitDialog.show(fm, "input_digit_dialog");
     }
 }
 

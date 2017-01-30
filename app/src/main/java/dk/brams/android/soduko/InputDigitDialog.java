@@ -1,8 +1,11 @@
 package dk.brams.android.soduko;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,27 +18,60 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class InputFragment extends Fragment {
-    private static final String TAG = "TBR:InputFragment";
+public class InputDigitDialog extends DialogFragment {
+    public static final String TAG = "TBR:InputDigitDialog";
+
     private RecyclerView mRecyclerView=null;
 
-
-    public static InputFragment newInstance() {
-        return new InputFragment();
+    public interface NoticeDialogListener {
+        public void onDialogClick(String number);
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_main, container, false);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.rv);
+    NoticeDialogListener mListener;
+
+
+    @Override
+    public void onAttach(Context context) {
+
+        super.onAttach(context);
+        // Verify that the host activity implements the callback interface
+        try {
+            // Instantiate the NoticeDialogListener so we can send events to the host
+            mListener = (NoticeDialogListener) getTargetFragment();
+//            mListener = (NoticeDialogListener) context;
+        } catch (ClassCastException e) {
+            // The activity doesn't implement the interface, throw exception
+            throw new ClassCastException(context.toString()
+                    + " must implement NoticeDialogListener");
+        }
+    }
+
+
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyAlertDialogStyle);
+ //       builder.setTitle("Input digit");
+
+
+        // Inflate our special dialog layout for the dialog
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.input_digit, null);
+
+
+        builder.setView(dialogView);
+
+        mRecyclerView = (RecyclerView) dialogView.findViewById(R.id.rv);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
         updateAdapterView(mRecyclerView);
-        return view;
-    }
 
+
+
+        return builder.create();
+    }
 
 
     private void updateAdapterView(RecyclerView rv) {
@@ -48,7 +84,7 @@ public class InputFragment extends Fragment {
             }
         }
 
-        rv.setAdapter(new InputFragment.DigitAdapter(testList));
+        rv.setAdapter(new DigitAdapter(testList));
     }
 
     private class DigitHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -72,6 +108,8 @@ public class InputFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Log.d(TAG, "onClick: "+mDigit.getRow()+", "+mDigit.getCol()+", "+mDigit.getValue());
+            mListener.onDialogClick(mDigit.getValue());
+            getDialog().cancel();
         }
     }
 
@@ -107,4 +145,8 @@ public class InputFragment extends Fragment {
             return mDigits.size();
         }
     }
+
+
+
+
 }

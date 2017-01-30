@@ -9,14 +9,14 @@ package dk.brams.android.soduko;
  * @author Daniele Mazzocchio
  * @version 1.0
  */
-class SudoKiller {
+class SudoSolver {
     private SudokuBoard sb;    // Puzzle to solve;
 
     /**
      * Initializes the game board.
      * @param sb The puzzle to solve.
      */
-    public SudoKiller(SudokuBoard sb) {
+    public SudoSolver(SudokuBoard sb) {
         this.sb = sb;
     }
 
