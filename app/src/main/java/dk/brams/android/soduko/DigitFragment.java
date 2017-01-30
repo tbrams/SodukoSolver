@@ -48,24 +48,40 @@ public class DigitFragment extends Fragment implements InputDigitDialog.NoticeDi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        mBoard = sampleBoard();
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==R.id.action_clear) {
-            int[][] board = generateBoard();
-            updateAdapterView(board, mRecyclerView);
+
+        switch (item.getItemId()) {
+            case R.id.action_clear:
+                mBoard=cleanBoard();
+                updateAdapterView(mBoard, mRecyclerView);
+                mSolveBtn.setText("Done adding numbers");
+                break;
+
+            case R.id.action_sample:
+                mBoard = sampleBoard();
+                updateAdapterView(mBoard, mRecyclerView);
+                mSolveBtn.setText("SOLVE");
+                break;
         }
 
         return false;
     }
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main, container, false);
 
-        mBoard = generateBoard();
+
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv);
         mSolveBtn = (Button) view.findViewById(R.id.solveBtn);
@@ -79,18 +95,21 @@ public class DigitFragment extends Fragment implements InputDigitDialog.NoticeDi
 
                     if (!sk.guess(0, 0)) {
                         Toast.makeText(getActivity(), "No solution found :-(", Toast.LENGTH_LONG).show();
-                        mBoard = generateBoard();
-                        mSolveBtn.setText("CLEAR");
+                        mBoard = sampleBoard();
 
                     } else {
+
+                        // We have a solution to display
                         updateAdapterView(mBoard, mRecyclerView);
                         mSolveBtn.setText("CLEAR");
-
                     }
-                } else {
+                } else if (mSolveBtn.getText().toString().toUpperCase().equals("CLEAR")) {
                     // Clear pressed
-                    mBoard = generateBoard();
+                    mBoard = cleanBoard();
                     updateAdapterView(mBoard, mRecyclerView);
+                    mSolveBtn.setText("SOLVE");
+                } else {
+                    // Done adding numbers
                     mSolveBtn.setText("SOLVE");
                 }
             }
@@ -103,7 +122,7 @@ public class DigitFragment extends Fragment implements InputDigitDialog.NoticeDi
 
 
 
-    private int[][] generateBoard() {
+    private int[][] sampleBoard() {
         int[][] newBoard =
                 {{3, 2, 9, 0, 0, 0, 0, 0, 0},
                  {0, 6, 5, 0, 0, 0, 1, 3, 0},
@@ -115,6 +134,20 @@ public class DigitFragment extends Fragment implements InputDigitDialog.NoticeDi
                  {0, 0, 0, 0, 9, 4, 5, 0, 8},
                  {0, 0, 0, 0, 0, 8, 4, 0, 0}};
          return newBoard;
+    }
+
+    private int[][] cleanBoard() {
+        int[][] newBoard = {
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0}};
+        return newBoard;
     }
 
 
@@ -158,10 +191,10 @@ public class DigitFragment extends Fragment implements InputDigitDialog.NoticeDi
 
         public void bindDigit(Digit digit) {
             mDigit = digit;
-            if (((mDigit.getCol() < 3) || (mDigit.getCol() > 5)) &&
+            if (((mDigit.getCol() < 3) || (mDigit.getCol() > 5))    &&
                 ((mDigit.getRow() < 3) || (mDigit.getRow() > 5))            ||
                    ((mDigit.getCol() > 2) && (mDigit.getCol() < 6)) &&
-                   ((mDigit.getRow() > 2) && (mDigit.getRow() < 6))) {
+                   ((mDigit.getRow() > 2) && (mDigit.getRow() < 6)))         {
                 mButton.setBackgroundResource(R.drawable.button_selector_2);
                 mButton.setTextColor(Color.WHITE);
             } else {
@@ -170,6 +203,7 @@ public class DigitFragment extends Fragment implements InputDigitDialog.NoticeDi
             }
             mButton.setText(mDigit.getValue());
         }
+
 
         @Override
         public void onClick(View v) {

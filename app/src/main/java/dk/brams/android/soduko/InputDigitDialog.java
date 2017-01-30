@@ -79,7 +79,7 @@ public class InputDigitDialog extends DialogFragment {
 
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
-                Digit d = new Digit(r, c, r*3+c);
+                Digit d = new Digit(r, c, r*3+(c+1));
                 testList.add(d);
             }
         }
