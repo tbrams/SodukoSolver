@@ -201,6 +201,18 @@ public class DigitFragment extends Fragment implements InputDigitDialog.NoticeDi
                 mButton.setBackgroundResource(R.drawable.button_selector);
                 mButton.setTextColor(Color.BLACK);
             }
+
+            // Check if this is an illegal position
+            for (int i = 0; i < 9; i++) {
+                int r = (mDigit.getRow() / 3) * 3 + (i % 3);
+                int c = (mDigit.getCol() / 3) * 3 + (i / 3);
+                if (    mBoard[mDigit.getRow()][i] == mDigit.getIntValue() && (i!=mDigit.getCol()) ||
+                        mBoard[i][mDigit.getCol()] == mDigit.getIntValue() && (i!=mDigit.getRow())||
+                        (mDigit.getCol()!=c) && (mDigit.getRow()!=r) && mBoard[r][c] == mDigit.getIntValue()) {
+
+                    mButton.setTextColor(Color.RED);
+                }
+            }
             mButton.setText(mDigit.getValue());
         }
 

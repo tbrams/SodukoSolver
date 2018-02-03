@@ -15,6 +15,10 @@ public class Digit {
         return (value==0?" ":Integer.toString(value));
     }
 
+    public int getIntValue() {
+        return value;
+    }
+
     public void setValue(int value) {
         this.value = value;
     }
