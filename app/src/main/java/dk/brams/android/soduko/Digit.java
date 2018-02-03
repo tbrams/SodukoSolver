@@ -12,7 +12,7 @@ public class Digit {
     }
 
     public String getValue() {
-        return Integer.toString(value);
+        return (value==0?" ":Integer.toString(value));
     }
 
     public void setValue(int value) {
