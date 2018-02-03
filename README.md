@@ -2,16 +2,14 @@
 Android implementation of a crude and simple Soduko Sover. This is in fact just a brute force approach, but with the mobiles available today this is no longer a problem and most often the time taken to guess a solution this way is acceptable.
 
 <p align="center">
-<img width="600" alt="screenshot" src="https://user-images.githubusercontent.com/3058746/35767491-743bb9e8-08ed-11e8-87b8-dded9da71751.png">
+<img width="300" alt="screenshot" src="https://user-images.githubusercontent.com/3058746/35767491-743bb9e8-08ed-11e8-87b8-dded9da71751.png">
+<img width="300" alt="Solved" src="https://user-images.githubusercontent.com/3058746/35767493-78b3e248-08ed-11e8-9893-7f63153c7404.png">
 </p>
 
 ## Usage
 Just start it up on your Android device and there will be a sample available for your convenience. Press `Solve`
 and you will see the solution - if a solution is possible.
 
-<p align="center">
-<img width="600" alt="Solved" src="https://user-images.githubusercontent.com/3058746/35767493-78b3e248-08ed-11e8-9893-7f63153c7404.png">
-</p>
 
 ### Build your own puzzle
 From the menu, you can clear everything and start entering your own puzzle be pressing each of the empty fields and selecting a digit from the pop up menu.
