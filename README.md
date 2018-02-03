@@ -10,7 +10,7 @@ Just start it up on your Android device and there will be a sample available for
 and you will see the solution - if a solution is possible.
 
 <p align="center">
-<img width="745" alt="Solved" src="https://user-images.githubusercontent.com/3058746/35767493-78b3e248-08ed-11e8-9893-7f63153c7404.png">
+<img width="600" alt="Solved" src="https://user-images.githubusercontent.com/3058746/35767493-78b3e248-08ed-11e8-9893-7f63153c7404.png">
 </p>
 
 ### Build your own puzzle
@@ -27,7 +27,8 @@ Again just press the `Solve` button and the app will attempt to find a
 solution for you.
 
 <p align="center">
-<img width="200" alt="Done" src="https://user-images.githubusercontent.com/3058746/35767506-9c862942-08ed-11e8-8fbd-6164961c03d1.png">
-<img width="200" alt="screenshot" src="https://user-images.githubusercontent.com/3058746/35767509-a15586b6-08ed-11e8-8f3d-87019a8f2d69.png">
+<img width="200" alt="Starting" src="https://user-images.githubusercontent.com/3058746/35767506-9c862942-08ed-11e8-8fbd-6164961c03d1.png">
+<img width="200" alt="Done" src="https://user-images.githubusercontent.com/3058746/35767509-a15586b6-08ed-11e8-8f3d-87019a8f2d69.png">
+<img width="200" alt="solved" src="https://user-images.githubusercontent.com/3058746/35767625-4826d330-08f0-11e8-800a-a0244e93aa03.png">
 </p>
 
